@@ -1,4 +1,6 @@
 import React, {ChangeEvent, FC, useState} from "react";
+import {TextField} from "@mui/material";
+import {FormattedMessage} from "react-intl";
 
 import {SearchInputProps} from "./types";
 
@@ -11,7 +13,10 @@ const SearchInput: FC<SearchInputProps> = ({fieldId, onFilterState}) => {
     }
 
     return (
-        <input placeholder={fieldId} value={value} onChange={handleChange}/>
+        <TextField id="standard-basic"
+                   label={<FormattedMessage id={fieldId}/>}
+                   value={value} onChange={handleChange}
+                   variant="standard"/>
     )
 };
 

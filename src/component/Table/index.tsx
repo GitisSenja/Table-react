@@ -6,7 +6,7 @@ import TableBody from "@mui/material/TableBody";
 import {TablePagination, Tooltip} from "@mui/material";
 import Table from "@mui/material/Table";
 import TableFooter from "@mui/material/TableFooter";
-import {FormattedMessage} from "react-intl";
+import {FormattedMessage, useIntl} from "react-intl";
 
 import {TableProps, Order, Data} from "./types";
 import {ICountryInfo} from "../../types";
@@ -24,6 +24,15 @@ const TableCountry: FC<TableProps> = ({tableRef}): JSX.Element => {
     const [filterMap, setFilterMap] = React.useState<Record<string, string>>({});
     const [countries, setCountries] = useState<ICountryInfo[]>([])
     const [countriesApi, setCountriesApi] = useState<ICountryInfo[]>([])
+    const intl = useIntl();
+
+    const getLabelDisplayedRows = ({from, to, count}: {
+        from: number;
+        to: number;
+        count: number;
+    }) => (
+        `${from}–${to} ${intl.formatMessage({id: "of"})} ${count !== -1 ? count : `${intl.formatMessage({id: "more_than"})} ${to}`}`
+    )
 
     const getCountry = async () => {
         const data = await getCountryByName()
@@ -89,6 +98,7 @@ const TableCountry: FC<TableProps> = ({tableRef}): JSX.Element => {
         getCountry()
     }, [])
 
+
     return (
         <>
             <TableContainer component={Paper}>
@@ -106,29 +116,30 @@ const TableCountry: FC<TableProps> = ({tableRef}): JSX.Element => {
                                 <Row key={country.id} row={country}/>
                             ))}
                     </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <Tooltip title={<FormattedMessage id='page_navigation'/>}>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
-                                colSpan={3}
-                                count={countries.length}
-                                labelRowsPerPage={<FormattedMessage id='rows_per_page'/>}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: {
-                                        'aria-label': 'rows per page',
-                                    },
-                                    native: true,
-                                }}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
-                        </Tooltip>
-                    </TableRow>
-                </TableFooter>
+                    <TableFooter>
+                        <TableRow>
+                            <Tooltip title={<FormattedMessage id='page_navigation'/>}>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
+                                    colSpan={3}
+                                    count={countries.length}
+                                    labelRowsPerPage={<FormattedMessage id='rows_per_page'/>}
+                                    labelDisplayedRows={getLabelDisplayedRows}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    SelectProps={{
+                                        inputProps: {
+                                            'aria-label': 'rows per page',
+                                        },
+                                        native: true,
+                                    }}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    ActionsComponent={TablePaginationActions}
+                                />
+                            </Tooltip>
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
         </>

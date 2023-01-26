@@ -17,6 +17,8 @@ export const messages = {
         tooltip_square: 'country size',
         page_navigation: 'Page navigation',
         search_window: 'Cell Search',
+        of:'of',
+        more_than:'More than'
     },
     [LOCALES.RUSSIAN]: {
         select_language: 'Выберите язык',
@@ -33,6 +35,8 @@ export const messages = {
         tooltip_population: 'Колличество населения',
         tooltip_square: 'Размеры страны',
         page_navigation: 'Навигация по странице',
-        search_window: 'Поиск по ячейкам',
+        search_window: 'Поиск по ячейки',
+        of:'из',
+        more_than:'Больше, чем'
     },
 }

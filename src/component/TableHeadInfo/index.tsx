@@ -7,9 +7,9 @@ import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from "@mui/material/IconButton";
-import {FormattedMessage} from "react-intl";
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import {Collapse, Tooltip} from "@mui/material";
+import {FormattedMessage} from "react-intl";
 
 import {Data, IHeadCell} from "../Table/types";
 import {EnhancedTableProps} from "./types";
@@ -92,9 +92,11 @@ const TableHeadInfo: FC<EnhancedTableProps> = ({
                 <TableCell/>
                 {TABLE_HEAD.map(headSearch => (
                     <TableCell key={headSearch.id}>
-                        <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                            <SearchInput onFilterState={onFilterState} fieldId={headSearch.id}/>
-                        </Collapse>
+                        <Tooltip title={<FormattedMessage id='search_window'/>}>
+                            <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                                <SearchInput onFilterState={onFilterState} fieldId={headSearch.id}/>
+                            </Collapse>
+                        </Tooltip>
                     </TableCell>
                 ))}
             </TableRow>)}
